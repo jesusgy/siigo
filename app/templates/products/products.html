@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="col-lg-12">
+    <div class="card">
+        <div class="card-header">
+            <a class="btn btn-small btn-success float-right" href="{% url 'products:product_create' %}"> Agregar</a>
+        </div>
+        <!-- /.card-header -->
+        <div class="card-body">
+            <div id="example2_wrapper" class="dataTables_wrapper dt-bootstrap4">
+                <div class="row">
+                    <div class="col-sm-12 col-md-6"></div>
+                    <div class="col-sm-12 col-md-6"></div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <table id="example2" class="table table-bordered table-hover dataTable dtr-inline" role="grid" aria-describedby="example2_info">
+                            <thead>
+                                <tr role="row">
+                                    <th class="sorting_asc" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Rendering engine: activate to sort column descending">Nombre de Producto</th>
+                                    <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Browser: activate to sort column ascending">Tipo</th>
+                                    <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column ascending">Codigo</th>
+                                    <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending">Estado</th>
+                                    <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="CSS grade: activate to sort column ascending">Creado</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for p in productos.results %}
+                                <tr role="row" class="odd">
+                                    <td class="dtr-control sorting_1" tabindex="0">
+                                        <a href="{% url 'products:product_one' p.id %}">{{ p.name }}</a>
+                                    </td>
+                                    <td>{{ p.type }}</td>
+                                    <td>{{ p.code }}</td>
+                                    <td class="text-center">
+                                        {% if p.active %}
+                                        <span class="badge bg-success">ACTIVO</span>
+                                        {% else %}
+                                        <span class="badge bg-danger">INACTIVO</span>
+                                        {% endif %}
+                                    </td>
+                                    <td class="text-center">
+                                        {{ p.metadata.created|date:'d/m/Y' }}
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12 col-md-5">
+                        <div class="dataTables_info" id="example2_info" role="status" aria-live="polite">Pagina {{ productos.pagination.page }}, Total de registros {{ productos.pagination.total_results }} </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+        <!-- /.card-body -->
+    </div>
+</div>
+{% endblock %}

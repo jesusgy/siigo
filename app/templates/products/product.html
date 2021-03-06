@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="col-lg-12">
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">{{ producto.name }}</h3>
+        </div>
+        <!-- /.card-header -->
+        <div class="card-body">
+            <div id="example2_wrapper" class="dataTables_wrapper dt-bootstrap4">
+                <div class="row">
+                    <div class="col-sm-12 col-md-6">
+                        <dt>Codigo:</dt>
+                        <dd>{{ producto.code }}</dd>
+                        <dt>Descripcion:</dt>
+                        <dd>{{ producto.description }}</dd>
+                        <dt>Impuestos:</dt>
+                        <dd>
+                            <ul>
+                                {% for t in producto.taxes %}
+                                <li>{{ t.name }}</li>
+                                {% endfor %}
+                            </ul>
+                        </dd>
+                        <dt>Precios:</dt>
+                        <dd>
+                            <ul>
+                                {% for p in producto.prices %}
+                                    {% for p_ in p.price_list %}
+                                    <li>{{ p_.name }} ({{ p_.value }}, {{ p.currency_code }})</li>
+                                    {% endfor %}
+                                {% endfor %}
+                            </ul>
+                        </dd>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12 col-md-6">
+                        <div class="card-footer">
+                            <button type="submit" class="btn btn-primary disabled">Editar</button>
+                            <form class="horizontal-form inline" style="display:inline;" action="{% url 'products:product_remove' producto.id %}" method="POST" onsubmit="return validar(this)">
+                                {% csrf_token %}
+                                <input type="hidden" name="id" value="{{ producto.id }}" />
+                                <button type="submit" class="btn btn-danger" >Eliminar</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /.card-body -->
+    </div>
+</div>
+<script type="text/javascript">
+function validar(f){
+    if(!confirm("Esta seguro de eliminar el producto?")){
+        return false;
+    }
+}
+</script>
+{% endblock %}
