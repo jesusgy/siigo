@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="col-lg-12">
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">{{ invoice.document.name }}</h3>
+        </div>
+        <!-- /.card-header -->
+        <div class="card-body">
+            <div id="example2_wrapper" class="dataTables_wrapper dt-bootstrap4">
+                <div class="row">
+                    <div class="col-sm-12 col-md-6">
+                        <dt>Cliente ID:</dt>
+                        <dd><a href="{% url 'clients:client_one' c_id=invoice.customer.id %}">{{ invoice.customer.identification }}</a></dd>
+                        <dt>Fecha:</dt>
+                        <dd>{{ invoice.date }}</dd>
+                        <dt>Total:</dt>
+                        <dd>
+                            {{ invoice.total }}
+                        </dd>
+                        <dt>Estado:</dt>
+                        <dd>
+                            {% if invoice.status == 'pagada' %}
+                            <span class="badge bg-success">PAGADA</span>
+                            {% else %}
+                            <span class="badge bg-primary">PENDIENTE</span>
+                            {% endif %}
+                        </dd>
+                        <dt>Items:</dt>
+                        <dd><table class="table table-sm">
+                            <thead>
+                                <th>Cant</th>
+                                <th>Descripcion</th>
+                                <th>Precio</th>
+                                <th>Total</th>
+                            </thead>
+                            {% for it in invoice.items %}
+                            <tr>
+                                <td>{{ it.quantity }}</td>
+                                <td><a href="{% url 'products:product_one' it.id %}">{{ it.code }}({{ it.description }})</a></td>
+                                <td>{{ it.price }}</td>
+                                <td>{{ it.total }}</td>
+                            </tr>
+                            {% endfor %}</table>
+                        </dd>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+        <!-- /.card-body -->
+    </div>
+</div>
+{% endblock %}

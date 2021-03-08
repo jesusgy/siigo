@@ -7,45 +7,39 @@
       
       <!-- /.card-header -->
       <!-- form start -->
-      <form id="regform" method="POST" onsubmit="fn_guardar(this)">
+      <form id="regform" method="POST">
           {% csrf_token %}
         <div class="card-body">
           <div class="form-group">
             <label>Nombre</label>
-            <input type="text" name="name" class="form-control" id="name" placeholder="Enter Name" required="required" >
+            <input type="text" name="name" class="form-control" id="name" placeholder="Enter Name" required="required" value="{{ producto.name }}" >
             <span id="exampleInputEmail1-error" class="error invalid-feedback">Ingrese el nombre del producto</span>
           </div>
           <div class="form-group">
             <label>Codigo</label>
-            <input type="text" name="code" class="form-control" id="code" placeholder="Enter Code" required="required" >
+            <input type="text" name="code" class="form-control" id="code" placeholder="Enter Code" required="required" value="{{ producto.code }}">
             <span id="exampleInputEmail1-error2" class="error invalid-feedback">Ingrese el codigo del producto</span>
           </div>
           <div class="form-group">
             <label>Grupo</label>
             <select class="form-control" id="account-group" name="account_group" required>
               {% for acc in account_groups %}  
-              <option value="{{ acc.id }}">{{ acc.name }}</option>
+              <option value="{{ acc.id }}" {% if producto.account_group.id == acc.id %}selected{% endif %}>{{ acc.name }}</option>
               {% endfor %}
             </select>
           </div>
           <div class="form-group">
             <label>Descripcion</label>
-            <input type="text" name="description" class="form-control" id="description" placeholder="Enter Description" required="required" >
+            <input type="text" name="description" class="form-control" id="description" placeholder="Enter Description" required="required" value="{{ producto.description }}" >
             <span id="exampleInputEmail1-error3" class="error invalid-feedback">Ingrese la descripcion del producto</span>
           </div>
         </div>
         <!-- /.card-body -->
         <div class="card-footer">
-          <button type="submit" class="btn btn-primary" id="btn_guardar">Guardar</button>
+          <button type="submit" class="btn btn-primary">Guardar</button>
         </div>
       </form>
     </div>
     <!-- /.card -->
 </div>
-<script type="text/javascript">
-function fn_guardar(bt){
-  document.getElementById("btn_guardar").innerHTML='Guardando...';
-  document.getElementById("btn_guardar").setAttribute('class','btn btn-primary disabled');
-}
-</script>
 {% endblock %}
